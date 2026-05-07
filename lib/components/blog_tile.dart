@@ -38,7 +38,7 @@ class BlogTile extends StatelessWidget {
               );
             },
           ),
-          Text(title),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
           Text(desc),
         ],
       ),
