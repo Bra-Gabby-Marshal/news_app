@@ -19,7 +19,7 @@ class NewsService {
 
   Future<void> getNewsForCategory(String category) async {
     final url = Uri.parse(
-      'https://newsapi.org/v2/top-headlines?country=us&category=$category&apiKey=$apiKey',
+      'https://newsapi.org/v2/top-headlines?country=in&category=$category&apiKey=$apiKey',
     );
 
     await _fetchNews(url);

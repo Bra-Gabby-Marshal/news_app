@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
       categories = getCategories();
+      getNews();
   }
 
   getNews() async {
@@ -49,42 +50,45 @@ class _HomeState extends State<Home> {
       ),
       body: _loading ? Center(
         child: Container(
-          child: CircularProgressIndicator(),)) : Container(
-        child: Column(
-          children: <Widget>[
-            // Categories
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              height: 70,
+          child: CircularProgressIndicator(),)) : SingleChildScrollView(
+            child: Container(
+                    child: Column(
+            children: <Widget>[
+              // Categories
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                height: 70,
+                child: ListView.builder(
+                  itemCount: categories.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return CategoryTile(
+                      imageUrl: categories[index].imageUrl,
+                      categoryName: categories[index].categoryName
+                    );
+                  }),
+              ),
+            
+            // Blogs / News
+            Expanded(
               child: ListView.builder(
-                itemCount: categories.length,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
+                itemCount: articles.length,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return CategoryTile(
-                    imageUrl: categories[index].imageUrl,
-                    categoryName: categories[index].categoryName
+                  return BlogTile(
+                    imageUrl: articles[index].urlToImage,
+                    title: articles[index].title,
+                    desc: articles[index].description,
+                    url: articles[index].articleUrl,
                   );
-                }),
-            ),
-          
-          // Blogs / News
-          Container(
-            child: ListView.builder(
-              itemCount: articles.length,
-              itemBuilder: (context, index) {
-                return BlogTile(
-                  imageUrl: articles[index].urlToImage,
-                  title: articles[index].title,
-                  desc: articles[index].description,
-                  url: articles[index].articleUrl,
-                );
-              },
-            ),
+                },
+              ),
+            )
+            ],
+                    ),
+                  ),
           )
-          ],
-        ),
-      )
     );
   }
 }
