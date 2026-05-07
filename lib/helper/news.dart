@@ -39,7 +39,10 @@ class NewsService {
       if (jsonData['status'] == 'ok') {
         for (final element in jsonData['articles']) {
           if (element['urlToImage'] != null &&
-              element['description'] != null) {
+              element['description'] != null &&
+              element['title'] != null &&
+              element['url'] != null &&
+              element['publishedAt'] != null) {
             final article = ArticleModel(
               title: element['title'],
               author: element['author'],
