@@ -1,7 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/components/blog_tile.dart';
 import 'package:news_app/components/category_tile.dart';
 import 'package:news_app/helper/data.dart';
+import 'package:news_app/helper/news.dart';
+import 'package:news_app/models/article_model.dart';
 import 'package:news_app/models/category_model.dart';
 
 class Home extends StatefulWidget {
@@ -13,12 +15,23 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<CategoryModel> categories = [];
+  List<ArticleModel> articles = [];
+  bool _loading = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
       categories = getCategories();
+  }
+
+  getNews() async {
+    NewsService newsService = NewsService();
+    await newsService.getNews();
+    articles = newsService.news;
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
@@ -34,9 +47,12 @@ class _HomeState extends State<Home> {
       centerTitle: true,
       elevation: 0.0,
       ),
-      body: Container(
+      body: _loading ? Center(
+        child: Container(
+          child: CircularProgressIndicator(),)) : Container(
         child: Column(
           children: <Widget>[
+            // Categories
             Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               height: 70,
@@ -51,6 +67,21 @@ class _HomeState extends State<Home> {
                   );
                 }),
             ),
+          
+          // Blogs / News
+          Container(
+            child: ListView.builder(
+              itemCount: articles.length,
+              itemBuilder: (context, index) {
+                return BlogTile(
+                  imageUrl: articles[index].urlToImage,
+                  title: articles[index].title,
+                  desc: articles[index].description,
+                  url: articles[index].articleUrl,
+                );
+              },
+            ),
+          )
           ],
         ),
       )
