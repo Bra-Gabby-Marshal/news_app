@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/components/category_tile.dart';
 import 'package:news_app/helper/data.dart';
 import 'package:news_app/models/category_model.dart';
 
@@ -32,7 +34,26 @@ class _HomeState extends State<Home> {
       centerTitle: true,
       elevation: 0.0,
       ),
-      body: Container()
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              height: 70,
+              child: ListView.builder(
+                itemCount: categories.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return CategoryTile(
+                    imageUrl: categories[index].imageUrl,
+                    categoryName: categories[index].categoryName
+                  );
+                }),
+            ),
+          ],
+        ),
+      )
     );
   }
 }
