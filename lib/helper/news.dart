@@ -11,7 +11,7 @@ class NewsService {
 
   Future<void> getNews() async {
     final url = Uri.parse(
-      'https://newsapi.org/v2/everything?q=tesla&from=2026-04-07&sortBy=publishedAt&apiKey=$apiKey',
+      'https://newsapi.org/v2/everything?q=tesla&from=2026-05-07&sortBy=publishedAt&apiKey=$apiKey',
     );
 
     await _fetchNews(url);

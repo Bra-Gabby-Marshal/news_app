@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/views/article_view.dart';
 
 class BlogTile extends StatelessWidget {
   final String imageUrl, title, desc, url;
@@ -12,7 +13,18 @@ class BlogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArticleView(
+              articleUrl: url,
+              title: title,
+            ),
+          ),
+        );
+      },
       child: Column(
         children: [
           Image.network(
